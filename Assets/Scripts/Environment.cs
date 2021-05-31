@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RangeStruct;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,13 @@ public sealed class Environment
 
     public Vector3 GetRandomTarget()
     {
-        return targets[Random.Range(0, targets.Count - 1)].transform.position;
+        Transform target =  targets[Random.Range(0, targets.Count - 1)].transform;
+        Bounds bounds = target.GetComponent<Renderer>().bounds;
+        RangeF xRange = new RangeF(target.position.x - (bounds.size.x / 2) , (target.position.x + bounds.size.x / 2));
+        RangeF zRange = new RangeF(target.position.z - (bounds.size.z / 2) , (target.position.z + bounds.size.z / 2));
+
+        return new Vector3(Random.Range(xRange.min, xRange.max), target.position.y, Random.Range(zRange.min, zRange.max));
+
     }
 
     public List<Vector3> GetTargets()
