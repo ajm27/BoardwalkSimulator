@@ -76,7 +76,8 @@ public class Idle : State
     {
         if (!isWaiting)
         {
-            if (Random.Range(0, 100) < 10 || timesWaited > 5)
+            Debug.Log($"Times Waited: {timesWaited}");
+            if (Random.Range(0, 100) < 35 || timesWaited >= 5)
             {
                 Debug.Log("Character is done waiting");
                 nextState = new Walking(npc, agent);
@@ -91,10 +92,6 @@ public class Idle : State
                 CoroutineRunner.Instance.StartCoroutine(waitingTimer);
             }
         }
-        else
-        {
-            Debug.Log("Character is waiting");
-        }
     }
 
     public override void Exit()
@@ -105,7 +102,7 @@ public class Idle : State
 
     private IEnumerator WaitFor(float seconds)
     {
-        Debug.Log($"Character waiting coroutine has started for {seconds} seconds");
+        //Debug.Log($"Character waiting coroutine has started for {seconds} seconds");
         yield return new WaitForSeconds(seconds);
         isWaiting = false;
     }
